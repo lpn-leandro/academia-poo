@@ -211,8 +211,8 @@ export default class BasicScreen {
         enrollment
       );
       this.clientCtrl.saveClient(newClient);
-    } catch (e) {
-      throw new CustomError('Erro -> ' + e);
+    } catch (e: any) {
+      throw new CustomError('Erro -> ' + e.getErrorMessage());
     }
   }
 
