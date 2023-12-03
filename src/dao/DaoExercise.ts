@@ -15,13 +15,13 @@ export default class DaoExercise {
       const element = this.exercise[index];
       listOfExercises =
         listOfExercises +
-        "----------------------------\nNome: " +
+        "###########|Exercicios|###########\n# Nome: " +
         element.getName() +
-        "\nPeso: " +
+        "\n# Peso: " +
         element.getSequence() +
-        "\nRepetições: " +
+        "\n# Repetições: " +
         element.getSequence() +
-        "\n-----------------------------\n";
+        "\n#################################\n";
     }
     listOfExercises = listOfExercises;
     return listOfExercises;

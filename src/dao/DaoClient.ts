@@ -15,15 +15,15 @@ export default class DaoClient {
       const element = this.client[index];
       listOfClients =
         listOfClients +
-        "-------------------------------\nNome: " +
+        "###########|Clientes|###########\n# Nome: " +
         element.getName() +
-        "\nEmail:  " +
+        "\n# Email:  " +
         element.getEmail() +
-        "\nTelefone: " +
+        "\n# Telefone: " +
         element.getCellphone() +
-        "\nMatricula: " +
+        "\n# Matricula: " +
         element.getEnrollment() +
-        "\n--------------------------------\n";
+        "\n###############################\n";
     }
     listOfClients = listOfClients;
     return listOfClients;

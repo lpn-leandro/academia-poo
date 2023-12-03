@@ -1,4 +1,4 @@
-export default class Exercises {
+export default class Exercise {
   private name: string = '';
   private weight: number = 0;
   private sequence: number = 0;

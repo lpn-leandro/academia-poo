@@ -15,13 +15,13 @@ export default class DaoTraining {
       const element = this.Training[index];
       listOfTrainings =
         listOfTrainings +
-        "\n---------------------------\nNome: " +
+        "\n###########|Treinos|###########\n# Nome: " +
         element.getName() +
-        "\nDescrição: " +
+        "\n# Descrição: " +
         element.getDescription() +
-        "\nExercicios: " +
+        "\n# Exercicios: " +
         element.getExercisesName() +
-        "\n---------------------------";
+        "\n###############################\n";
     }
     listOfTrainings = listOfTrainings;
     return listOfTrainings;

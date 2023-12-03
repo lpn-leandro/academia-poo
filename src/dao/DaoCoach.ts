@@ -15,13 +15,13 @@ export default class DaoCoach {
       const element = this.coach[index];
       listOfCoachs =
         listOfCoachs +
-        "---------------------\nNome: " +
+        "###########|Treinadores|###########\n# Nome: " +
         element.getName() +
-        "\nEmail: " +
+        "\n# Email: " +
         element.getEmail() +
-        "\nTelefone: " +
+        "\n# Telefone: " +
         element.getCellphone() +
-        "\n-------------------------------" +
+        "\n#################################\n" +
         "\n";
     }
     listOfCoachs = listOfCoachs;
