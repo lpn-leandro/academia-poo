@@ -9,6 +9,10 @@ export default class Client extends Person{
         this.setEnrollment(enrollment);
     }
 
+    public getName() {
+        return super.getName().toUpperCase();
+    }
+
     public getEnrollment(): number{
         return this.enrollment;
     }

@@ -1,4 +1,5 @@
 export default abstract class Person {
+  private id!: number;
   private name!: string;
   private email!: string;
   private cellphone!: number;
@@ -8,13 +9,17 @@ export default abstract class Person {
     email: string,
     cellphone: number
   ) {
+    this.id = Math.floor(Math.random() * 100);
     this.setName(name);
     this.setEmail(email);
     this.setCellphone(cellphone);
   }
 
+  public getId(): number{
+    return this.id;
+  }
+
   public setName(name: string) {
-    name.trim();
     this.name = name;
   }
   public getName() {

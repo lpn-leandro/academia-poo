@@ -15,8 +15,9 @@ export default class DaoClient {
       const element = this.client[index];
       listOfClients =
         listOfClients +
-        "-------------------------------\nNome: " +
-        element.getName() +
+        "-------------------------------\n" +
+        "\n# ID: " + element.getId() +
+        "Nome: " + element.getName() +
         "\nEmail:  " +
         element.getEmail() +
         "\nTelefone: " +

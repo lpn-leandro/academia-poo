@@ -1,9 +1,10 @@
 import Client from "../model/Client";
+import GenericDao from "./GenericDao";
 
-export default class DaoClient {
+export default class DaoClient extends GenericDao<Client>{
   private client: Client[] = [];
 
-  public addClient(client: Client) {
+  public add(client: Client) {
     this.client.push(client);
   }
 
@@ -15,8 +16,9 @@ export default class DaoClient {
       const element = this.client[index];
       listOfClients =
         listOfClients +
-        "###########|Clientes|###########\n# Nome: " +
-        element.getName() +
+        "###########|Clientes|###########" +
+        "\n# ID: " + element.getId() +
+        "\n# Nome: " + element.getName() +
         "\n# Email:  " +
         element.getEmail() +
         "\n# Telefone: " +
@@ -28,4 +30,15 @@ export default class DaoClient {
     listOfClients = listOfClients;
     return listOfClients;
   }
+
+  public getItemDetails(client: Client): string {
+    return `
+      ID: ${client.getId()}
+      Nome: ${client.getName()}
+      Email: ${client.getEmail()}
+      Telefone: ${client.getCellphone()}
+      Matrícula: ${client.getEnrollment()}
+    `;
+  }
+
 }

@@ -1,38 +1,46 @@
-import Exercise from "./Exercise";
+import Exercise from './Exercise';
 
-export default class Training{
-    private name: string = "";
-    private description: string = "";
-    private exercises: Exercise[] = [];
+export default class Training {
+  private id!: number;
+  private name: string = '';
+  private description?: string = '';
+  private exercises: Exercise[];
 
-    constructor(name: string, description: string){
-        this.setName(name);
-        this.setDescription(description);
-    }
+  constructor(name: string, description?: string, exercises: Exercise[] = []){
+    this.id = Math.floor(Math.random() * 100);
+    this.setName(name);
+    this.description = description;
+    this.exercises = Array.isArray(exercises) ? exercises : [exercises];
+    
+  }
 
-    public setName(name: string): void{
-        name.trim();
-        this.name = name;
-    }
-    public getName(): string{
-        return this.name;
-    }
+  public getId(): number {
+    return this.id;
+  }
 
-    public setDescription(description: string): void{
-        description.trim();
-        this.description = description;
-    }
-    public getDescription(): string{
-        return this.description;
-    }
+  public setName(name: string): void {
+    this.name = name.trim();
+  }
+  public getName(): string {
+    return this.name;
+  }
 
-    public addExercises(exercise: Exercise) {
-        this.exercises.push(exercise);
+  public setDescription(description: string): void {
+    this.description = description.trim();;
+  }
+  public getDescription(): string | undefined {
+    return this.description;
+  }
+
+  public addExercises(exercise: Exercise): void {
+    this.exercises.push(exercise);
+  }
+  public getExercisesName() {
+    let exercisesNames: string = '';
+    for (let index = 0; index < this.exercises.length; index++) {
+      const exercises = this.exercises[index];
+      exercisesNames += exercises.getName() + '\n';
     }
-    public getExercisesName(){
-        for (let index = 0; index < this.exercises.length; index++) {
-            const exercises = this.exercises[index];
-            console.log('Nome: ' + exercises.getName());
-        }
-    }
+    return exercisesNames;
+  }
 }

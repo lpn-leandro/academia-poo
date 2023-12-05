@@ -15,8 +15,9 @@ export default class DaoCoach {
       const element = this.coach[index];
       listOfCoachs =
         listOfCoachs +
-        "###########|Treinadores|###########\n# Nome: " +
-        element.getName() +
+        "###########|Treinadores|###########" +
+        "\n# ID: " + element.getId() + 
+        "\n# Nome: " + element.getName() +
         "\n# Email: " +
         element.getEmail() +
         "\n# Telefone: " +

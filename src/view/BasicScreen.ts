@@ -1,11 +1,15 @@
 import promptSync from 'prompt-sync';
+import CustomError from '../model/CustomError';
+
 import ClientCtrl from '../control/ClientCtrl';
-import Client from '../model/Client';
 import CoachCtrl from '../control/CoachCtrl';
 import TrainingCtrl from '../control/TrainingCtrl';
 import ExerciseCtrl from '../control/ExerciseCtrl';
+
+import Client from '../model/Client';
 import Coach from '../model/Coach';
-import CustomError from '../model/CustomError';
+import Training from '../model/Training';
+import Exercise from '../model/Exercise';
 
 export default class BasicScreen {
   private prompt = promptSync();
@@ -15,9 +19,16 @@ export default class BasicScreen {
   private trainingCtrl!: TrainingCtrl;
   private exerciseCtrl!: ExerciseCtrl;
 
-  constructor(coachCtrl: CoachCtrl, clientCtrl: ClientCtrl) {
+  constructor(
+    coachCtrl: CoachCtrl,
+    clientCtrl: ClientCtrl,
+    trainingCtrl: TrainingCtrl,
+    exerciseCtrl: ExerciseCtrl
+  ) {
     this.coachCtrl = coachCtrl;
     this.clientCtrl = clientCtrl;
+    this.trainingCtrl = trainingCtrl;
+    this.exerciseCtrl = exerciseCtrl;
   }
 
   public firstScreen() {
@@ -61,7 +72,7 @@ export default class BasicScreen {
       // Get user input
       //console.clear();
       let choice = this.prompt(
-        'Cliente ...\nSelecione uma das opções abaixo:\n1 - Visualizar Treinos\n2 - AJustar Treinos\n3 - Sair\n'
+        'Cliente ...\nSelecione uma das opções abaixo:\n1 - Visualizar Treinos\n2 - Ajustar Exercicio\n3 - Sair\n'
       );
       // Convert the string input to a number
       let nr = Number(choice);
@@ -72,7 +83,7 @@ export default class BasicScreen {
           break;
         case 2:
           console.clear();
-          this.listAllClients();
+          this.editExercise();
           break;
         case 3:
           console.clear();
@@ -93,7 +104,15 @@ export default class BasicScreen {
       // Get user input
       //console.clear();
       let choice = this.prompt(
-        'Treinador ...\nSelecione uma das opções abaixo:\n1 - Verificar Treinos\n2 - Ajustar Treinos\n3 - Voltar\n'
+        `Treinador
+Selecione uma das opções abaixo:
+1 - Verificar Treinos
+2 - Verificar Exercicios
+3 - Adicionar Treinos
+4 - Adicionar Exercicios
+5 - Adicionar Exercicio a Treino
+6 - Procurar um Exercicio
+7 - Voltar\n`
       );
       // Convert the string input to a number
       let nr = Number(choice);
@@ -105,9 +124,26 @@ export default class BasicScreen {
           break;
         case 2:
           console.clear();
-          this.listAllClients();
+          this.listAllExercises();
           break;
         case 3:
+          showScreen = true;
+          this.registerNewTraining();
+          break;
+        case 4:
+          showScreen = true;
+          this.registerNewExercise();
+          break;
+        case 5:
+          showScreen = true;
+          this.addNewExerciseToTraining();
+          break;
+        case 6:
+          showScreen = true;
+          this.findExercise();
+          break;
+        case 7:
+          console.clear();
           showScreen = true;
           this.firstScreen();
           break;
@@ -125,7 +161,12 @@ export default class BasicScreen {
       // Get user input
       //console.clear();
       let choice = this.prompt(
-        '\nSelecione uma das opções abaixo:\n1 - Cadastrar Cliente\n2 - Cadastrar Treinador\n3 - Listar Clientes\n4 - Listar Treinadores\n5 - Voltar\n'
+        `Selecione uma das opções abaixo:
+1 - Cadastrar Cliente
+2 - Cadastrar Treinador
+3 - Listar Clientes
+4 - Listar Treinadores
+5 - Voltar\n`
       );
       // Convert the string input to a number
       let nr = Number(choice);
@@ -216,6 +257,90 @@ export default class BasicScreen {
     }
   }
 
+  public registerNewExercise() {
+    try {
+      console.clear();
+      const name: string = this.prompt('Insira o nome do Exercicio: ');
+      const weight: number = parseInt(
+        this.prompt('Insira o peso do Exercicio: ')
+      );
+      if (isNaN(weight)) {
+        throw new CustomError(
+          'Entrada inválida. Por favor, forneça um peso válido.'
+        );
+      }
+      const sequence: number = parseInt(
+        this.prompt('Insira as repetiçoes do Exercicio: ')
+      );
+      if (isNaN(sequence)) {
+        throw new CustomError(
+          'Entrada inválida. Por favor, forneça um número de repetiçoes válido.'
+        );
+      }
+      const series: number = parseInt(
+        this.prompt('Insira as Séries do Exercicio: ')
+      );
+      if (isNaN(series)) {
+        throw new CustomError(
+          'Entrada inválida. Por favor, forneça um número de séries válido.'
+        );
+      }
+      let newExercise: Exercise = this.exerciseCtrl.getNewExercise(
+        name,
+        weight,
+        sequence,
+        series
+      );
+      this.exerciseCtrl.saveExercise(newExercise);
+    } catch (e: any) {
+      throw new CustomError('Erro -> ' + e.getErrorMessage());
+    }
+  }
+
+  public registerNewTraining() {
+    console.clear();
+    const name: string = this.prompt('Insira o nome do Treino: ');
+    const description: string = this.prompt('Insira a descrição do Treino: ');
+    let newTraining: Training = this.trainingCtrl.getNewTraining(
+      name,
+      description
+    );
+    this.trainingCtrl.saveTraining(newTraining);
+  }
+
+  public addNewExerciseToTraining() {
+    try {
+      console.clear();
+      this.listAllTrainings();
+
+      const trainingId: number = parseInt(
+        this.prompt('Digite o ID do treino: ')
+      );
+      const training = this.trainingCtrl.findTrainingById(trainingId);
+
+      if (!training) {
+        throw new CustomError('Treino não encontrado com o ID fornecido.');
+      }
+
+      console.log('Exercícios disponíveis para adicionar:');
+      this.listAllExercises();
+
+      const exerciseId: number = parseInt(
+        this.prompt('Digite o ID do exercício: ')
+      );
+      const exercise = this.exerciseCtrl.findExerciseById(exerciseId);
+
+      if (!exercise) {
+        throw new CustomError('Exercício não encontrado com o ID fornecido.');
+      }
+
+      training.addExercises(exercise);
+      console.log('Exercício adicionado ao treino com sucesso.');
+    } catch (e: any) {
+      throw new CustomError('Erro -> ' + e.getErrorMessage());
+    }
+  }
+
   public listAllClients() {
     let listOfClients: string = this.clientCtrl.listAllClients();
     console.clear();
@@ -238,6 +363,56 @@ export default class BasicScreen {
     let listOfExercises: string = this.exerciseCtrl.listAllExercises();
     console.clear();
     console.log(listOfExercises);
+  }
+
+  //busca especializada
+  public findExercise() {
+    console.clear();
+    const name: string = this.prompt(
+      'Insira o nome do Exercicio que deseja encontrar: '
+    );
+    let exercise = this.exerciseCtrl.findExerciseByName(name);
+    if (exercise) {
+      console.log(`Exercício encontrado: ${exercise.getName()}\n`);
+      // Faça o que precisar com o exercício encontrado
+    } else {
+      console.log(`Nenhum exercício encontrado com o nome ${name}\n`);
+    }
+  }
+
+  public editExercise() {
+    try {
+      console.clear();
+      this.listAllTrainings();
+  
+      const trainingId: number = parseInt(this.prompt('Digite o ID do treino: '));
+      const training = this.trainingCtrl.findTrainingById(trainingId);
+  
+      if (!training) {
+        throw new CustomError('Treino não encontrado com o ID fornecido.');
+      }
+  
+      console.log('Exercícios no treino:');
+      console.log(training.getExercisesName());
+  
+      const exerciseId: number = parseInt(this.prompt('Digite o ID do exercício para editar o peso: '));
+      const exercise = this.exerciseCtrl.findExerciseById(exerciseId);
+  
+      if (!exercise) {
+        throw new CustomError('Exercício não encontrado com o ID fornecido.');
+      }
+  
+      const newWeight: number = parseInt(this.prompt('Digite o novo peso para o exercício: '));
+  
+      if (isNaN(newWeight)) {
+        throw new CustomError('Entrada inválida. Por favor, forneça um peso válido.');
+      }
+  
+      exercise.setWeight(newWeight);
+      console.log('Peso do exercício editado com sucesso.');
+    } catch (e: any) {
+      throw new CustomError('Erro -> ' + e.getErrorMessage());
+    }
   }
 
 }

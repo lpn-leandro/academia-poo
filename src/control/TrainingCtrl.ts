@@ -15,4 +15,9 @@ export default class TrainingCtrl {
   public listAllTrainings(): string{
     return this.daoTraining.listAllTrainings();
   } 
+  
+  public findTrainingById(trainingId: number): Training | undefined {
+    return this.daoTraining.findTrainingById(trainingId);
+  }
+
 }

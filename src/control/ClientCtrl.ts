@@ -11,7 +11,7 @@ export default class ClientCtrl {
   }
 
   public saveClient(client: Client): void {
-    this.daoClient.addClient(client);
+    this.daoClient.add(client);
   }
 
   public listAllClients(): string{

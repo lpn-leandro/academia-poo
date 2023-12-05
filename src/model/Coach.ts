@@ -8,6 +8,10 @@ export default class Coach extends Person{
         super(name, email, cellphone);
     }
 
+    public getName() {
+        return super.getName() + `ID: ${super.getId()}`;
+    }
+
     public addClients(client: Client){
         this.clients.push(client);
     }

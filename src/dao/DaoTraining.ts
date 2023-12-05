@@ -1,29 +1,29 @@
-import Training from "../model/Training";
+import Training from '../model/Training';
 
 export default class DaoTraining {
-  private Training: Training[] = [];
+  private trainings: Training[] = [];
 
-  public addTraining(Training: Training) {
-    this.Training.push(Training);
+  public addTraining(training: Training) {
+    this.trainings.push(training);
   }
 
   //retornar relatorio de passageiros
   public listAllTrainings(): string {
-    let listOfTrainings: string = "";
+    let listOfTrainings: string = '';
 
-    for (let index = 0; index < this.Training.length; index++) {
-      const element = this.Training[index];
-      listOfTrainings =
-        listOfTrainings +
-        "\n###########|Treinos|###########\n# Nome: " +
-        element.getName() +
-        "\n# Descrição: " +
-        element.getDescription() +
-        "\n# Exercicios: " +
-        element.getExercisesName() +
-        "\n###############################\n";
+    for (const training of this.trainings) {
+      listOfTrainings += `###########|Treinos|###########
+      # ID: ${training.getId()}
+      # Nome: ${training.getName()}
+      # Descrição: ${training.getDescription()}
+      # Exercicios: ${training.getExercisesName()}
+      ###############################\n`;
     }
-    listOfTrainings = listOfTrainings;
     return listOfTrainings;
   }
+
+  public findTrainingById(trainingId: number): Training | undefined {
+    return this.trainings.find(training => training.getId() === trainingId);
+  }
+  
 }

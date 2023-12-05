@@ -1,26 +1,22 @@
-import Client from "../model/Client";
-import Coach from "../model/Coach";
-import Dao from "./Dao";
-
 export default class GenericDao<T> {
-  //private value: T;
-  private dao: Dao = new Dao();
+  private items: T[] = [];
 
-  constructor() {
-    //this.value = value;
+  public add(item: T) {
+    this.items.push(item);
   }
 
-  public add(value: T) {
-  
-    if (value instanceof Client) {
-      console.log("adicionando um Cliente");
-      this.dao.addClient(value);
+  public listAll(): string {
+    let result: string = '';
+
+    for (const item of this.items) {
+      result += `#${this.getItemDetails(item)}\n`;
     }
-    if (value instanceof Coach) {
-      console.log("adicionando um Coach");
-      this.dao.addCoach(value);
-    }
-    this.dao.print();
+
+    return result;
   }
 
+  // Método abstrato para obter os detalhes específicos do item
+  protected getItemDetails(item: T): string {
+    throw new Error('Método getItemDetails deve ser implementado nas classes filhas.');
+  }
 }

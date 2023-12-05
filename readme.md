@@ -14,17 +14,15 @@ Este projeto tem como objetivo implementar um sistema de academia, onde os clien
 - [x] Classe Abstrata:
 - [x] Interface:
 #### 04 - Quarta etapa.
-- [ ] Sobrescrita: -- 
-- [ ] Sobrecarga: -- 
+- [x] Sobrescrita: -- getName classe Coach Client
+- [x] Sobrecarga: -- Classe Training, variavel Description
 #### 05 - Quinta etapa.
 - [x] Try Catch:
 - [x] Testes Unitários:
 #### 06 - Sexta etapa.
-- [ ] Gerenciamento de persistencias:
-- [ ] Tipos Genéricos:
+- [x] Gerenciamento de persistencias: Busca Especializada / Busca de um determinado treinador/ alunos dele 
+- [x] Tipos Genéricos: - GenericDao - Dao
 #### 07 - Etapa Extra.
 - [ ] Projeto - Extras:
 ## Manual de execução
 - Em construção
-
-Busca Especializada / Busca de um determinado treinador/ alunos dele 
